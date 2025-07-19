@@ -57,7 +57,7 @@ const blurSpeedInput = document.getElementById('blurSpeed');
 const toggleBlurButton = document.getElementById('toggleBlur');
 
 let currentChartSize = 50; // 百分比
-let currentBlurAmount = 0; // 0-10
+let currentBlurAmount = 0; // 0-20 (新的范围)
 let currentBlurSpeed = 3; // 1-5，1最慢，5最快
 let blurInterval = null;
 let isBlurringUp = true; // 模糊是增加还是减少
@@ -174,7 +174,7 @@ chartSizeInput.addEventListener('input', (e) => {
 
 // 事件监听：手动调整模糊程度
 blurAmountInput.addEventListener('input', (e) => {
-    currentBlurAmount = parseInt(e.target.value);
+    currentBlurAmount = parseFloat(e.target.value); // Use parseFloat for decimal steps
     drawEyeChart(); // 更新显示以反映模糊变化
 });
 
@@ -192,24 +192,26 @@ blurSpeedInput.addEventListener('input', (e) => {
 function startBlurCycle() {
 // Speed: 1 (slow) to 5 (fast). IntervalTime: 400 (slow) to 100 (fast)
 // 1 -> 400ms, 5 -> 100ms. interval = 500 - speed * 100
-// This allows blur to change by 0.5 per tick.
+// This allows blur to change by 0.3 per tick.
     const intervalTime = 500 - (currentBlurSpeed * 80); // Adjust calculation for better range, e.g., 400ms to 80ms
 
     blurInterval = setInterval(() => {
         if (isBlurringUp) {
-            currentBlurAmount += 0.5;
-            if (currentBlurAmount >= 10) {
-                currentBlurAmount = 10;
+            currentBlurAmount += 0.3;
+            if (currentBlurAmount >= 20) { // CHANGED: from 33 to 20
+                currentBlurAmount = 20; // Cap at max
                 isBlurringUp = false;
             }
         } else {
-            currentBlurAmount -= 0.5;
+            currentBlurAmount -= 0.3;
             if (currentBlurAmount <= 0) {
-                currentBlurAmount = 0;
+                currentBlurAmount = 0; // Cap at min
                 isBlurringUp = true;
             }
         }
-        blurAmountInput.value = currentBlurAmount; // 更新滑块位置
+        // Ensure blur amount is always within valid range and rounded for slider display
+        currentBlurAmount = Math.max(0, Math.min(20, currentBlurAmount)); // CHANGED: from 33 to 20
+        blurAmountInput.value = currentBlurAmount.toFixed(1); // Update slider position, use toFixed for decimal
         drawEyeChart();
     }, intervalTime);
 }
