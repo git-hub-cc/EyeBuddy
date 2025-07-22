@@ -3,59 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EyeBuddy - 视力训练</title>
+    <title>EyeBuddy - 综合视觉训练器</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-    <h1>EyeBuddy 视力训练器</h1>
-    <p>通过交互式练习，帮助您训练和放松眼睛。</p>
+    <h1>EyeBuddy 综合视觉训练器</h1>
+    <p>通过多样化的交互式练习，全面训练和放松您的眼睛。</p>
 </header>
 
 <main>
     <div class="tabs-container">
         <!-- 标签页导航 -->
         <div class="tab-nav">
-            <button class="tab-button active" data-tab="eyeChart">1. E字视力表与模糊训练</button>
-            <button class="tab-button" data-tab="tracking">2. 物体追踪训练</button>
+            <button class="tab-button active" data-tab="eyeChart">1. 视力表与调节训练</button>
+            <button class="tab-button" data-tab="tracking">2. 追随训练</button>
+            <button class="tab-button" data-tab="saccades">3. 扫视训练</button>
         </div>
 
         <!-- 标签页内容 -->
         <div id="eyeChart" class="tab-content active">
-            <section id="eyeChartSection" class="training-section">
-                <h2>E字视力表与模糊训练</h2>
+            <section class="training-section">
+                <h2>E字视力表与模糊调节训练</h2>
                 <div class="controls">
-                    <label for="chartSize">E字大小 (模拟距离):</label>
+                    <label for="chartSize">E字大小:</label>
                     <input type="range" id="chartSize" min="10" max="100" value="50">
-                    <label for="blurAmount">手动模糊程度:</label>
-                    <input type="range" id="blurAmount" min="0" max="20" value="0"> <!-- CHANGED: max from 33 to 20 -->
+                    <label for="blurAmount">手动模糊:</label>
+                    <input type="range" id="blurAmount" min="0" max="20" step="0.1" value="0">
                     <label for="blurSpeed">模糊速度:</label>
-                    <input type="range" id="blurSpeed" min="1" max="5" value="3">
-                    <button id="toggleBlur">开始/停止模糊循环</button>
+                    <input type="range" id="blurSpeed" min="0.5" max="5" step="0.5" value="3">
+                    <button id="toggleBlur">开始模糊循环</button>
                 </div>
-                <canvas id="eyeChartCanvas" width="800" height="600"></canvas>
-                <p>请保持一定距离观看，尝试辨认E字方向。</p>
+                <!-- REMOVED width and height attributes -->
+                <canvas id="eyeChartCanvas"></canvas>
+                <p>保持距离观看，尝试辨认E字方向。模糊循环可以训练眼睛的晶状体调节能力。</p>
             </section>
         </div>
 
         <div id="tracking" class="tab-content">
-            <section id="trackingSection" class="training-section">
-                <h2>物体追踪训练</h2>
+            <section class="training-section">
+                <h2>物体追随训练 (Pursuits)</h2>
                 <div class="controls">
-                    <label for="objectSpeed">物体速度:</label>
-                    <input type="range" id="objectSpeed" min="1" max="10" value="5">
-
-                    <label for="flashFrequency">闪烁频率 (次/秒):</label>
+                    <label for="trackingPath">运动轨迹:</label>
+                    <select id="trackingPath">
+                        <option value="linear">水平直线</option>
+                        <option value="circle">圆形</option>
+                        <option value="infinity">无限符号(∞)</option>
+                    </select>
+                    <label for="objectSpeed">运动速度:</label>
+                    <input type="range" id="objectSpeed" min="5" max="20" value="10">
+                    <label for="flashFrequency">闪烁频率 (Hz):</label>
                     <input type="range" id="flashFrequency" min="0" max="5" step="0.5" value="0">
-
-                    <input type="checkbox" id="randomPosition">
-                    <label for="randomPosition">乱序位置</label>
-
-                    <button id="startTracking">开始追踪</button>
-                    <button id="stopTracking" disabled>停止追踪</button>
+                    <button id="startTracking">开始</button>
+                    <button id="stopTracking" disabled>停止</button>
                 </div>
-                <canvas id="trackingCanvas" width="800" height="600"></canvas>
-                <p>请跟随屏幕上移动的物体。</p>
+                <!-- REMOVED width and height attributes -->
+                <canvas id="trackingCanvas"></canvas>
+                <p>请用眼睛平滑地跟随屏幕上移动的物体，头部尽量保持不动。</p>
+            </section>
+        </div>
+
+        <div id="saccades" class="tab-content">
+            <section class="training-section">
+                <h2>扫视训练 (Saccades)</h2>
+                <div class="controls">
+                    <label for="saccadesSpeed">跳转速度 (次/秒):</label>
+                    <input type="range" id="saccadesSpeed" min="1" max="5" step="0.5" value="1">
+                    <label for="saccadesTargets">目标数量:</label>
+                    <input type="range" id="saccadesTargets" min="2" max="5" value="2">
+                    <button id="startSaccades">开始</button>
+                    <button id="stopSaccades" disabled>停止</button>
+                </div>
+                <!-- REMOVED width and height attributes -->
+                <canvas id="saccadesCanvas"></canvas>
+                <p>眼睛快速地从一个目标跳到另一个目标，训练眼球的快速定位能力。</p>
             </section>
         </div>
     </div>

@@ -5,6 +5,13 @@ body {
     background-color: #f4f4f4;
     color: #333;
     text-align: center;
+    transition: background-color 0.3s;
+}
+
+body.fullscreen-active {
+    background-color: #000; /* Dark background in fullscreen */
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars in fullscreen */
 }
 
 header, footer {
@@ -12,6 +19,14 @@ header, footer {
     color: white;
     padding: 10px 0;
     margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+body.fullscreen-active header,
+body.fullscreen-active footer,
+body.fullscreen-active .tab-nav,
+body.fullscreen-active .training-section > p {
+    display: none; /* Hide non-essential elements in fullscreen */
 }
 
 main {
@@ -21,6 +36,19 @@ main {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+body.fullscreen-active main {
+    max-width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* --- 标签页样式 --- */
@@ -28,65 +56,69 @@ main {
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fafafa;
-    padding-top: 10px; /* 为内容留出顶部空间，防止被tab-nav遮挡 */
-    position: relative; /* 用于tab-nav的定位 */
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .tab-nav {
     display: flex;
-    justify-content: center; /* 居中tab按钮 */
-    border-bottom: 1px solid #ddd; /* 底部边框与内容区域分隔 */
-    position: absolute; /* 使tab-nav浮动在tabs-container的顶部 */
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #fafafa; /* 与tabs-container背景一致 */
+    justify-content: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    background-color: #fafafa;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    z-index: 10; /* 确保tab-nav在内容之上 */
+    z-index: 10;
 }
 
 .tab-button {
-    background-color: #eee;
-    border: 1px solid #ddd;
-    border-bottom: none; /* 移除底部边框，让它与tab-nav的border-bottom融合 */
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 18px;
-    margin: 0 5px; /* 按钮间距 */
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
-    outline: none; /* 移除点击时的蓝色边框 */
+    margin: 0 10px;
+    transition: all 0.3s;
+    outline: none;
+    color: #555;
 }
 
 .tab-button:hover:not(.active) {
-    background-color: #e0e0e0;
+    color: #007bff;
 }
 
 .tab-button.active {
-    background-color: #fff; /* 活跃标签背景与内容区背景一致 */
     color: #007bff;
-    border-bottom: 1px solid #fff; /* 覆盖tab-nav的底部边框，使其看起来是连接的 */
+    border-bottom-color: #007bff;
     font-weight: bold;
 }
 
 .tab-content {
-    display: none; /* 默认隐藏所有内容 */
-    padding-top: 50px; /* 给tab-nav留出空间，防止内容被遮挡 */
+    display: none;
+    flex-grow: 1;
+    padding-top: 10px; /* Space for the nav */
 }
 
 .tab-content.active {
-    display: block; /* 活跃内容显示 */
+    display: flex; /* Use flex to manage height */
 }
 
-/* --- 原有训练模块和控件样式 (保持不变或微调) --- */
+/* --- 训练模块和控件样式 --- */
 .training-section {
-    margin-bottom: 20px; /* 减少内边距，因为tab-content已经有padding */
     padding: 20px;
-    /* border: 1px solid #ddd; */ /* 移除，由tabs-container统一边框 */
-    border-radius: 8px;
-    background-color: #fafafa; /* 保持内部背景色 */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+body.fullscreen-active .training-section {
+    background-color: transparent;
+    justify-content: center;
+    padding: 10px;
 }
 
 canvas {
@@ -94,6 +126,19 @@ canvas {
     background-color: #fff;
     display: block;
     margin: 20px auto;
+    /* Base size and responsive behavior */
+    width: 800px;
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+    transition: all 0.3s;
+}
+
+body.fullscreen-active canvas {
+    border: 2px solid #555;
+    width: auto;
+    /* Fill most of the screen height while maintaining aspect ratio */
+    height: 85vh;
+    max-height: 100%;
 }
 
 .controls {
@@ -102,14 +147,35 @@ canvas {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 15px 25px; /* row-gap column-gap */
+    transition: all 0.3s;
 }
 
-.controls label, .controls input, .controls button {
+body.fullscreen-active .controls {
+    position: absolute;
+    bottom: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+body.fullscreen-active .controls label {
+    color: #fff;
+}
+
+.controls label, .controls input, .controls button, .controls select {
     padding: 8px 12px;
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 16px;
+    margin: 0; /* Reset margin for better gap control */
+}
+
+.controls select {
+    cursor: pointer;
 }
 
 .controls button {
@@ -123,7 +189,18 @@ canvas {
     background-color: #218838;
 }
 
+.controls button[id^="stop"] {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.controls button[id^="stop"]:hover:not(:disabled) {
+    background-color: #c82333;
+}
+
+
 .controls button:disabled {
     background-color: #cccccc;
+    color: #666666;
+    border-color: #cccccc;
     cursor: not-allowed;
 }
