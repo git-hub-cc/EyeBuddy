@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EyeBuddy - 综合视觉训练器</title>
+    <title>EyeBuddy</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-    <h1>EyeBuddy 综合视觉训练器</h1>
+    <h1>EyeBuddy</h1>
     <p>通过多样化的交互式练习，全面训练和放松您的眼睛。</p>
 </header>
 
@@ -16,9 +16,10 @@
     <div class="tabs-container">
         <!-- 标签页导航 -->
         <div class="tab-nav">
-            <button class="tab-button active" data-tab="eyeChart">1. 视力表与调节训练</button>
+            <button class="tab-button active" data-tab="eyeChart">1. 视力训练</button>
             <button class="tab-button" data-tab="tracking">2. 追随训练</button>
             <button class="tab-button" data-tab="saccades">3. 扫视训练</button>
+            <button class="tab-button" data-tab="eyeExercises">4. 眼保健操</button>
         </div>
 
         <!-- 标签页内容 -->
@@ -34,7 +35,6 @@
                     <input type="range" id="blurSpeed" min="0.5" max="5" step="0.5" value="3">
                     <button id="toggleBlur">开始模糊循环</button>
                 </div>
-                <!-- REMOVED width and height attributes -->
                 <canvas id="eyeChartCanvas"></canvas>
                 <p>保持距离观看，尝试辨认E字方向。模糊循环可以训练眼睛的晶状体调节能力。</p>
             </section>
@@ -57,7 +57,6 @@
                     <button id="startTracking">开始</button>
                     <button id="stopTracking" disabled>停止</button>
                 </div>
-                <!-- REMOVED width and height attributes -->
                 <canvas id="trackingCanvas"></canvas>
                 <p>请用眼睛平滑地跟随屏幕上移动的物体，头部尽量保持不动。</p>
             </section>
@@ -70,20 +69,38 @@
                     <label for="saccadesSpeed">跳转速度 (次/秒):</label>
                     <input type="range" id="saccadesSpeed" min="1" max="5" step="0.5" value="1">
                     <label for="saccadesTargets">目标数量:</label>
-                    <input type="range" id="saccadesTargets" min="2" max="5" value="2">
+                    <input type="range" id="saccadesTargets" min="5" max="15" value="7">
                     <button id="startSaccades">开始</button>
                     <button id="stopSaccades" disabled>停止</button>
                 </div>
-                <!-- REMOVED width and height attributes -->
                 <canvas id="saccadesCanvas"></canvas>
                 <p>眼睛快速地从一个目标跳到另一个目标，训练眼球的快速定位能力。</p>
+            </section>
+        </div>
+
+        <div id="eyeExercises" class="tab-content">
+            <section class="training-section">
+                <h2>眼保健操</h2>
+                <div class="controls">
+                    <label for="exerciseVersion">选择版本:</label>
+                    <select id="exerciseVersion">
+                        <option value="new">新版</option>
+                        <option value="classic">经典版</option>
+                    </select>
+                    <button id="playExercise">播放</button>
+                    <button id="stopExercise">停止</button>
+                </div>
+                <div class="exercise-display">
+                    <img id="eyeExerciseImage" src="img/新.jpg" alt="眼保健操图示 - 新版">
+                </div>
+                <p>请跟随音乐和口令，闭上眼睛，放松并按摩眼部周围的穴位。</p>
             </section>
         </div>
     </div>
 </main>
 
 <footer>
-    <p>© 2025 EyeBuddy. 开源项目，请勿作为医疗建议。</p>
+    <p>©粤ICP备2024271251号 <a href="https://github.com/git-hub-cc/EyeBuddy" target="_blank" rel="noopener noreferrer">EyeBuddy开源链接</a>，请勿作为医疗建议。</p>
 </footer>
 
 <script src="script.js"></script>
